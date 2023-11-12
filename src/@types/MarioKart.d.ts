@@ -1,11 +1,11 @@
 type Player = {
     id: number,
     name: string,
-    rounds: {
+    rounds: Record<string, {
         round: number,
         points: number
-    }[],
-    previousOpponents: string[]
+    }>,
+    previousOpponents: Set<string>
 }
 
 type Players = Player[]
@@ -17,15 +17,16 @@ type GroupSetup = {
 }
 
 declare enum WinCondition {
-    Top1Group = 'top1group',
-    Top2Group = 'top2group',
-    Top1Round = 'top1round',
-    Top2Round = 'top2round',
+    Top1Group = '1/group',
+    Top2Group = '2/group',
+    Top1Round = '1/round',
+    Top2Round = '2/round',
+    Top4Round = '4/round'
 }
 
 type Group = {
     players: Players,
-    condition: WinCondition,
+    condition: string,
 }
 
 declare enum RoundType {
@@ -36,9 +37,15 @@ declare enum RoundType {
 
 type Round = {
     roundNumber: number,
-    // roundType: RoundType,
     groupSetup: GroupSetup,
     groups: Group[]
 }
 
 type Rounds = Round[];
+
+type GameState = {
+    currentRound: number,
+    rounds: Map<number, Round>,
+    players: Player[],
+    playersPerRound: Map<number, Player[]>
+}

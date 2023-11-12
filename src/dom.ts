@@ -30,7 +30,7 @@ export function createPlayersList(players: Player[]): HTMLDivElement {
     return div;
 }
 
-export function createLeaderboard(group: Group, round: number) {
+export function createLeaderboard(group: Group, roundName: string) {
     const leaderboard = getElement('div');
     leaderboard.classList.add('leaderboard');
 
@@ -46,7 +46,7 @@ export function createLeaderboard(group: Group, round: number) {
         nameDiv.classList.add('name');
         playerRow.appendChild(nameDiv);
 
-        const playerPoints = player.rounds.find(r => r.round === round)?.points.toString() || '0';
+        const playerPoints = player.rounds[roundName].points.toString() || Math.floor(Math.random() * 15).toString() || '0';
         const pointsDiv = getElement('div', playerPoints);
         pointsDiv.classList.add('points');
         pointsDiv.contentEditable = 'true';

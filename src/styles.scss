@@ -16,8 +16,10 @@ body {
     font-family: 'New Rodin';
 }
 
-table {
-    border-collapse: collapse;
+.roundWrapper {
+    float: left;
+    clear: both;
+    width: 100%;
 }
 
 .leaderboard {
