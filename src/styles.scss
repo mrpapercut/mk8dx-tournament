@@ -1,0 +1,50 @@
+$darktransparent: rgb(0 0 0 / 40%);
+$yellow: rgb(254 242 70 / 90%);
+
+@font-face {
+    font-family: 'New Rodin';
+    src: url('../public/fonts/FOT-NewRodin-Pro-EB.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Mario Kart';
+    src: url('../public/fonts/mario_kart_font_two.ttf') format('truetype');
+}
+
+body {
+    background: #333 url('../public/images/bg.jpg') repeat;
+    font-family: 'New Rodin';
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.leaderboard {
+    color: #fff;
+    float: left;
+    min-width: 250px;
+
+    .playerRow {
+        display: grid;
+        grid-template-columns: 15% 70% 15%;
+        background: $darktransparent;
+        border-radius: 2px;
+        padding: 0.25rem;
+        margin: 0.25rem;
+        text-shadow: 0 0 3px #000;
+
+        .rank {
+            text-align: center;
+        }
+
+        .points {
+            text-align: center;
+        }
+
+        &.winner {
+            background: $yellow;
+        }
+    }
+
+}
