@@ -1,7 +1,10 @@
 # Folders
 node_modules
+public
 
 # Files
+mix-manifest
+package-lock.json
 
 # Gitkeep
 !.gitkeep

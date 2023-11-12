@@ -1,21 +1,10 @@
 import { createLeaderboard, createPlayerInput, createPlayersList } from './dom';
-import { randomizeArray } from './util';
+import { randomizeArray, getMarioNames } from './util';
 
 import groupSetups from './groupSetups';
 import roundSetups from './roundSetups';
 
-const exampleNames = [
-    'Mario', 'Luigi', 'Peach', 'Daisy', 'Rosalina',
-    'Tanooki Mario', 'Cat Peach', 'Birdo', 'Yoshi', 'Toad',
-    'Koopa Troopa', 'Shy Guy', 'Lakitu', 'Toadette', 'King Boo',
-    'Petey Piranha', 'Baby Mario', 'Baby Luigi', 'Baby Peach', 'Baby Daisy',
-    'Baby Rosalina', 'Metal Mario', 'Pink Gold Peach', 'Wiggler', 'Wario',
-    'Waluigi', 'Donkey Kong', 'Bowser', 'Dry Bones', 'Bowser Jr.',
-    'Dry Bowser', 'Kamek', 'Lemmy', 'Larry', 'Wendy',
-    'Ludwig', 'Iggy', 'Roy', 'Morton', 'Peachette',
-    'Inkling Girl', 'Inkling Boy', 'Villager (male)', 'Villager (female)', 'Isabelle',
-    'Link', 'Diddy Kong', 'Funky Kong', 'Pauline', 'Zelda'
-]
+const exampleNames = getMarioNames();
 
 class MarioKartTournament {
     private wrapper: HTMLDivElement;
@@ -41,7 +30,7 @@ class MarioKartTournament {
 
     attachListeners() {
         const [populatePlayersBtn, round1Btn, round2ABtn, round2BBtn, round3Btn, round4Btn] =
-        ['populatePlayers', 'round1', 'round2A', 'round2B', 'round3', 'round4'].map(id => document.getElementById(id));
+            ['populatePlayers', 'round1', 'round2A', 'round2B', 'round3', 'round4'].map(id => document.getElementById(id));
 
         populatePlayersBtn.addEventListener('click', e => {
             e.preventDefault();

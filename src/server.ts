@@ -11,8 +11,8 @@ app.get('/', (req, res) => {
     res.send(htmltemplate);
 });
 
-app.use(express.static('public'));
-// app.use('/images', express.static('images'));
-// app.use('/fonts', express.static('fonts'));
+app.use('/public', express.static('public'));
+app.use('/images', express.static('public/images'));
+app.use('/fonts', express.static('public/fonts'));
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

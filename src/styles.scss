@@ -3,16 +3,16 @@ $yellow: rgb(254 242 70 / 90%);
 
 @font-face {
     font-family: 'New Rodin';
-    src: url('../public/fonts/FOT-NewRodin-Pro-EB.otf') format('opentype');
+    src: url('../fonts/FOT-NewRodin-Pro-EB.otf') format('opentype');
 }
 
 @font-face {
     font-family: 'Mario Kart';
-    src: url('../public/fonts/mario_kart_font_two.ttf') format('truetype');
+    src: url('../fonts/mario_kart_font_two.ttf') format('truetype');
 }
 
 body {
-    background: #333 url('../public/images/bg.jpg') repeat;
+    background: #333 url('../images/bg.png') repeat;
     font-family: 'New Rodin';
 }
 
