@@ -1,5 +1,8 @@
 $darktransparent: rgb(0 0 0 / 40%);
 $yellow: rgb(254 242 70 / 90%);
+$orange: rgb(255 171 0 / 90%);
+$orangered: rgb(255 73 1 / 100%);
+$red: rgb(181 0 0 / 100%);
 
 @font-face {
     font-family: 'New Rodin';
@@ -16,28 +19,164 @@ body {
     font-family: 'New Rodin';
 }
 
+#debug {
+    position: absolute;
+    display: none;
+    top: 30px;
+    left: 10px;
+    background: #fff;
+    width: 400px;
+    z-index: 100;
+    padding: 0.25rem 1rem;
+
+    &.show {
+        display: block;
+    }
+
+    h6 {
+        margin-top: 0;
+    }
+}
+
+#toggledebug {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#admin {
+    position: absolute;
+    display: none;
+    top: 30px;
+    left: 10px;
+    background: #fff;
+    width: 400px;
+    z-index: 100;
+    padding: 0.25rem 1rem;
+
+    &.show {
+        display: block;
+    }
+}
+
+#toggleadmin {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#wrapper {
+    margin-top: 150px;
+}
+
+#headerlogo {
+    width: 500px;
+    position: absolute;
+    z-index: 10;
+    top: 17px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    img {
+        width: 100%;
+    }
+}
+
 .roundWrapper {
-    float: left;
     clear: both;
-    width: 100%;
+    width: 70%;
+    margin: 0 auto 1rem;
+    display: grid;
+    padding: 3rem 0.5rem 1rem;
+    // background: $yellow;
+    background: $yellow;
+    background: linear-gradient(90deg, $yellow 0%, $orange 100%);
+    position: relative;
+    border-radius: 5px;
+    border: 2px solid $orangered;
+
+    &.items1 {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    &.items2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    &.items3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    &.items4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    &.items5 {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    &.items6 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    &.items7,
+    &.items8 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    &:before {
+        position: absolute;
+        width: 120px;
+        text-align: center;
+        left: 50%;
+        top: 0.5rem;
+        transform: translateX(-50%);
+    }
+}
+
+#roundWrapper1:before {
+    content: 'Round 1';
+}
+
+#roundWrapper2:before {
+    content: 'Round 2A';
+}
+
+#roundWrapper3:before {
+    content: 'Round 2B';
+}
+
+#roundWrapper4:before {
+    content: 'Semi Finale';
+}
+
+#roundWrapper5:before {
+    content: 'Finale';
 }
 
 .leaderboard {
     color: #fff;
     float: left;
-    min-width: 250px;
+    margin-bottom: 1rem;
+    width: 100%;
 
     .playerRow {
         display: grid;
-        grid-template-columns: 15% 70% 15%;
+        grid-template-columns: 10% 15% 60% 15%;
         background: $darktransparent;
         border-radius: 2px;
         padding: 0.25rem;
         margin: 0.25rem;
-        text-shadow: 0 0 3px #000;
+        text-shadow: 1px 1px 2px #000;
+        border: 1px solid transparent;
 
         .rank {
             text-align: center;
+        }
+
+        .icon img {
+            width: 35px;
+            height: 35px;
         }
 
         .points {
@@ -46,6 +185,10 @@ body {
 
         &.winner {
             background: $yellow;
+            background: linear-gradient(90deg, $yellow 0%, $orange 100%);
+            border-radius: 3px;
+            border-color: #000;
+            box-shadow: 1px 1px 2px 0px #000;
         }
     }
 

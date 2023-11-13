@@ -1,6 +1,7 @@
 type Player = {
     id: number,
     name: string,
+    iconname: string,
     rounds: Record<string, {
         round: number,
         points: number

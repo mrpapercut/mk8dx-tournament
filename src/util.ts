@@ -9,10 +9,10 @@ export function getMarioNames(): string[] {
         'Koopa Troopa', 'Shy Guy', 'Lakitu', 'Toadette', 'King Boo',
         'Petey Piranha', 'Baby Mario', 'Baby Luigi', 'Baby Peach', 'Baby Daisy',
         'Baby Rosalina', 'Metal Mario', 'Pink Gold Peach', 'Wiggler', 'Wario',
-        'Waluigi', 'Donkey Kong', 'Bowser', 'Dry Bones', 'Bowser Jr.',
+        'Waluigi', 'Donkey Kong', 'Bowser', 'Dry Bones', 'Bowser Jr',
         'Dry Bowser', 'Kamek', 'Lemmy', 'Larry', 'Wendy',
         'Ludwig', 'Iggy', 'Roy', 'Morton', 'Peachette',
-        'Inkling Girl', 'Inkling Boy', 'Villager (male)', 'Villager (female)', 'Isabelle',
+        'Inkling Girl', 'Inkling Boy', 'Villager Male', 'Villager Female', 'Isabelle',
         'Link', 'Diddy Kong', 'Funky Kong', 'Pauline', 'Zelda'
     ];
 }

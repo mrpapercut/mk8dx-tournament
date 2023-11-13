@@ -42,6 +42,13 @@ export function createLeaderboard(group: Group, roundName: string) {
         rankDiv.classList.add('rank');
         playerRow.appendChild(rankDiv);
 
+        const iconDiv = getElement('div');
+        iconDiv.classList.add('icon');
+        const iconImg = <HTMLImageElement>getElement('img');
+        iconImg.src = `images/${player.iconname}.png`;
+        iconDiv.appendChild(iconImg);
+        playerRow.appendChild(iconDiv);
+
         const nameDiv = getElement('div', player.name);
         nameDiv.classList.add('name');
         playerRow.appendChild(nameDiv);

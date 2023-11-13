@@ -28,6 +28,13 @@ export default [{
                 "4": 2
             },
             "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -60,6 +67,13 @@ export default [{
                 "4": 2
             },
             "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -92,6 +106,13 @@ export default [{
                 "4": 2
             },
             "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -124,6 +145,13 @@ export default [{
                 "4": 2
             },
             "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -156,6 +184,13 @@ export default [{
                 "4": 2
             },
             "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -188,6 +223,13 @@ export default [{
                 "4": 2
             },
             "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -220,6 +262,13 @@ export default [{
                 "4": 2
             },
             "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -252,6 +301,13 @@ export default [{
                 "4": 2
             },
             "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -284,6 +340,13 @@ export default [{
                 "4": 2
             },
             "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -314,6 +377,13 @@ export default [{
             "groupSetup": {
                 "3": 4,
                 "4": 0
+            },
+            "condition": "1/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
             },
             "condition": "1/group"
         }
@@ -348,6 +418,13 @@ export default [{
                 "4": 0
             },
             "condition": "1/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -378,6 +455,13 @@ export default [{
             "groupSetup": {
                 "3": 4,
                 "4": 0
+            },
+            "condition": "1/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
             },
             "condition": "1/group"
         }
@@ -412,6 +496,13 @@ export default [{
                 "4": 0
             },
             "condition": "1/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -442,6 +533,13 @@ export default [{
             "groupSetup": {
                 "3": 4,
                 "4": 0
+            },
+            "condition": "1/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
             },
             "condition": "1/group"
         }
@@ -476,6 +574,13 @@ export default [{
                 "4": 0
             },
             "condition": "1/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -508,6 +613,13 @@ export default [{
                 "4": 0
             },
             "condition": "1/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
         }
     }
 }, {
@@ -538,6 +650,13 @@ export default [{
             "groupSetup": {
                 "3": 4,
                 "4": 0
+            },
+            "condition": "1/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
             },
             "condition": "1/group"
         }
