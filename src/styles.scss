@@ -88,7 +88,6 @@ body {
     margin: 0 auto 1rem;
     display: grid;
     padding: 3rem 0.5rem 1rem;
-    // background: $yellow;
     background: $yellow;
     background: linear-gradient(90deg, $yellow 0%, $orange 100%);
     position: relative;
@@ -132,26 +131,84 @@ body {
         top: 0.5rem;
         transform: translateX(-50%);
     }
+
+    &:after {
+        content: ' ';
+        background-size: contain;
+        background-repeat: no-repeat;
+        position: absolute;
+        z-index: 101;
+    }
 }
 
-#roundWrapper1:before {
-    content: 'Round 1';
+#roundWrapper1 {
+    &:before {
+        content: 'Round 1';
+    }
+
+    &:after {
+        background-image: url('../images/Lakitu_camera.png');
+        width: 220px;
+        height: 290px;
+        top: -100px;
+        right: -180px;
+    }
 }
 
-#roundWrapper2:before {
-    content: 'Round 2A';
+#roundWrapper2 {
+    &:before {
+        content: 'Round 2A';
+    }
+
+    &:after {
+        background-image: url('../images/MK8_Toad_Mechanic3.png');
+        width: 120px;
+        height: 200px;
+        top: 70px;
+        left: -140px;
+    }
 }
 
-#roundWrapper3:before {
-    content: 'Round 2B';
+#roundWrapper3 {
+    &:before {
+        content: 'Round 2B';
+    }
+
+    &:after {
+        background-image: url('../images/MK8_Toad_Space2.png');
+        width: 220px;
+        height: 290px;
+        top: -100px;
+        right: -180px;
+    }
 }
 
-#roundWrapper4:before {
-    content: 'Semi Finale';
+#roundWrapper4 {
+    &:before {
+        content: 'Semi Finale';
+    }
+
+    &:after {
+        background-image: url('../images/MK8_Toad_Mechanic1.png');
+        width: 160px;
+        height: 200px;
+        top: 90px;
+        left: -140px;
+    }
 }
 
-#roundWrapper5:before {
-    content: 'Finale';
+#roundWrapper5 {
+    &:before {
+        content: 'Finale';
+    }
+
+    &:after {
+        background-image: url('../images/Mario_Trophy.png');
+        width: 220px;
+        height: 290px;
+        top: 0px;
+        right: -180px;
+    }
 }
 
 .leaderboard {
