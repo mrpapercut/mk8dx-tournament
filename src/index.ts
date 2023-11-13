@@ -1,4 +1,4 @@
-import { createLeaderboard, createPlayerInput, createPlayersList } from './dom';
+import { getElement } from './dom';
 import { randomizeArray, getMarioNames, localStorage } from './util';
 
 import groupSetups from './groupSetups';
@@ -8,11 +8,8 @@ class MarioKartTournament {
     private wrapper: HTMLDivElement;
 
     private state: GameState;
-    private isInitialized: boolean = false;
 
-    // private players: Player[];
-
-    private playerInput: HTMLTextAreaElement;
+    private playerNames: string[] = [];
     private numberOfPlayers: number = 16;
 
     private marioNames: string[] = randomizeArray(getMarioNames());
@@ -42,18 +39,16 @@ class MarioKartTournament {
 
     constructor() {
         this.wrapper = <HTMLDivElement>document.getElementById('wrapper');
-        this.playerInput = <HTMLTextAreaElement>document.getElementById('playerinput');
 
         this.initFromLocalStorage();
 
-        this.setupHTML();
-
-        this.numberOfPlayers = 32;
+        this.attachListeners();
     }
 
     initFromLocalStorage() {
         const storedState: string = localStorage.get('mk8dx');
         const storedRounds: string = localStorage.get('mk8dxrounds');
+        const storedPlayersPerRound: string = localStorage.get('mk8dxppr');
 
         if (storedState) {
             const storedGame: GameState = JSON.parse(storedState);
@@ -65,21 +60,35 @@ class MarioKartTournament {
                 this.state.rounds = new Map();
             }
 
+            if (storedPlayersPerRound) {
+                this.state.playersPerRound = new Map(JSON.parse(storedPlayersPerRound));
+            } else {
+                this.state.playersPerRound = new Map();
+            }
+
             for (const roundNumber of this.state.rounds.keys()) {
                 this.renderRound(roundNumber);
             }
-
-            this.isInitialized = true;
         }
     }
 
     updateStateInLocalstorage() {
         localStorage.set('mk8dx', JSON.stringify(this.state));
         localStorage.set('mk8dxrounds', JSON.stringify(Array.from(this.state.rounds.entries())));
+        localStorage.set('mk8dxppr', JSON.stringify(Array.from(this.state.playersPerRound.entries())));
     }
 
-    setupHTML() {
-        this.attachListeners();
+    updatePlayerlist() {
+        const playerList = <HTMLDivElement>document.body.querySelector('#playerlist');
+        playerList.innerHTML = '';
+
+        this.playerNames.forEach(name => {
+            const playerName = document.createElement('div');
+            playerName.classList.add('playername');
+            playerName.innerHTML = name;
+
+            playerList.appendChild(playerName);
+        })
     }
 
     attachListeners() {
@@ -99,12 +108,47 @@ class MarioKartTournament {
             debugDiv.classList.remove('show');
         });
 
+        // Add players
+        const addPlayerInput = <HTMLInputElement>adminDiv.querySelector('#addplayer');
+        const addPlayerBtn = adminDiv.querySelector('#addplayerbtn');
+        const setPlayersBtn = adminDiv.querySelector('#setplayers');
+        const addPlayerToList = name => {
+            this.playerNames.push(addPlayerInput.value);
+            addPlayerInput.value = '';
+            this.updatePlayerlist();
+        }
+
+        addPlayerInput.addEventListener('keyup', e => {
+            const target = <HTMLInputElement>e.target;
+            if (e.code === 'Enter' && target.value !== '') {
+                addPlayerToList(target.value);
+            }
+        });
+
+        addPlayerBtn.addEventListener('click', e => {
+            e.preventDefault();
+
+            if (addPlayerInput.value != '') {
+                addPlayerToList(addPlayerInput.value);
+            }
+        });
+
+        setPlayersBtn.addEventListener('click', e => {
+            e.preventDefault();
+
+            const players = this.playerNames.map((playerName, playerIndex) => this.parsePlayer(playerName, playerIndex));
+            const randomizedPlayers = randomizeArray(players);
+
+            this.initState(randomizedPlayers);
+            this.initNewRound(1);
+        });
+
         this.attachDebugListeners();
     }
 
     attachDebugListeners() {
-        const [clearStorage, populatePlayersBtn, round1Btn, round2ABtn, round2BBtn, round3Btn, round4Btn] =
-            ['clearStorage', 'populatePlayers', 'round1', 'round2A', 'round2B', 'round3', 'round4'].map(id => document.getElementById(id));
+        const [clearStorage, populatePlayersBtn, round1Btn, round2Btn, round3Btn, round4Btn] =
+            ['clearStorage', 'populatePlayers', 'round1', 'round2', 'round3', 'round4'].map(id => document.getElementById(id));
 
         clearStorage.addEventListener('click', e => {
             e.preventDefault();
@@ -122,32 +166,30 @@ class MarioKartTournament {
             const players = this.marioNames.slice(0, this.numberOfPlayers).map((playerName, playerIndex) => this.parsePlayer(playerName, playerIndex));
 
             this.initState(players);
-            // const playerList = <HTMLDivElement>createPlayersList(this.players);
-            // this.wrapper.appendChild(playerList);
         });
 
         round1Btn.addEventListener('click', e => {
             e.preventDefault();
+            this.updateStateInLocalstorage();
             this.initNewRound(1);
         });
 
-        round2ABtn.addEventListener('click', e => {
+        round2Btn.addEventListener('click', e => {
             e.preventDefault();
+            this.updateStateInLocalstorage();
             this.initNewRound(2);
-        });
-
-        round2BBtn.addEventListener('click', e => {
-            e.preventDefault();
             this.initNewRound(3);
         });
 
         round3Btn.addEventListener('click', e => {
             e.preventDefault();
+            this.updateStateInLocalstorage();
             this.initNewRound(4);
         });
 
         round4Btn.addEventListener('click', e => {
             e.preventDefault();
+            this.updateStateInLocalstorage();
             this.initNewRound(5);
         });
     }
@@ -224,36 +266,30 @@ class MarioKartTournament {
         roundWrapper.classList.add(`items${thisRound.groups.length}`);
         roundWrapper.innerHTML = '';
 
-        /*
-        const roundTitle = document.createElement('h2');
-        roundTitle.innerHTML = this.roundNames.get(round).name;
-        roundWrapper.appendChild(roundTitle);
-        */
-
         thisRound.groups.forEach((group, groupIndex) => {
-            const leaderboard = createLeaderboard(group, this.roundNames.get(thisRound.roundNumber).setupName);
+            const leaderboard = this.createLeaderboard(group, this.roundNames.get(thisRound.roundNumber).setupName);
             [...leaderboard.querySelectorAll('.points')].forEach(pdiv => pdiv.addEventListener('blur', e => {
                 const targetDiv = <HTMLDivElement>e.target;
                 const playerId = parseInt(targetDiv.getAttribute('data-player'), 10);
+                const round = parseInt(targetDiv.getAttribute('data-round'), 10);
 
                 const player: Player = thisRound.groups[groupIndex].players.find(player => player.id === playerId);
                 const score = parseInt(targetDiv.innerHTML, 10);
 
-                this.updatePlayerScore(player, score);
+                this.updatePlayerScore(player, score, round);
             }));
 
             roundWrapper.appendChild(leaderboard);
         });
     }
 
-    private updatePlayerScore(player: Player, score: number) {
-        const roundName = this.roundNames.get(this.state.currentRound).setupName;
-
+    private updatePlayerScore(player: Player, score: number, round: number) {
+        const roundName = this.roundNames.get(round).setupName;
         const playerRound = player.rounds[roundName];
 
         if (!playerRound) {
             player.rounds[roundName] = {
-                round: this.state.currentRound,
+                round: round,
                 points: score
             }
         } else {
@@ -280,17 +316,18 @@ class MarioKartTournament {
         const losers = [];
 
         const condition = round.groups[0].condition;
+        const roundName = this.roundNames.get(round.roundNumber).setupName;
 
         if (condition === '1/group') {
             round.groups.forEach(group => {
-                const sortedPlayers = this.sortPlayersByScore(group.players, round.roundNumber);
+                const sortedPlayers = this.sortPlayersByScore(group.players, roundName);
 
                 sortedPlayers.slice(0, 1).forEach(player => winners.push(player));
                 sortedPlayers.slice(1).forEach(player => losers.push(player));
             });
         } else if (condition === '2/group') {
             round.groups.forEach(group => {
-                const sortedPlayers = this.sortPlayersByScore(group.players, round.roundNumber);
+                const sortedPlayers = this.sortPlayersByScore(group.players, roundName);
 
                 sortedPlayers.slice(0, 2).forEach(player => winners.push(player));
                 sortedPlayers.slice(2).forEach(player => losers.push(player));
@@ -299,7 +336,7 @@ class MarioKartTournament {
             const allPlayers = [];
             round.groups.forEach(group => allPlayers.push(...group.players));
 
-            const sortedPlayers = this.sortPlayersByScore(allPlayers, round.roundNumber);
+            const sortedPlayers = this.sortPlayersByScore(allPlayers, roundName);
 
             sortedPlayers.slice(0, 2).forEach(player => winners.push(player));
             sortedPlayers.slice(2).forEach(player => losers.push(player));
@@ -307,7 +344,7 @@ class MarioKartTournament {
             const allPlayers = [];
             round.groups.forEach(group => allPlayers.push(...group.players));
 
-            const sortedPlayers = this.sortPlayersByScore(allPlayers, round.roundNumber);
+            const sortedPlayers = this.sortPlayersByScore(allPlayers, roundName);
 
             sortedPlayers.slice(0, 4).forEach(player => winners.push(player));
             sortedPlayers.slice(4).forEach(player => losers.push(player));
@@ -316,8 +353,7 @@ class MarioKartTournament {
         return { winners, losers }
     }
 
-    private sortPlayersByScore(players: Player[], roundNumber: number): Player[] {
-        const roundName = this.roundNames.get(roundNumber).setupName;
+    private sortPlayersByScore(players: Player[], roundName: string): Player[] {
         const sortedPlayers = players.sort((a: Player, b: Player) => {
             return b.rounds[roundName].points - a.rounds[roundName].points
         });
@@ -330,8 +366,7 @@ class MarioKartTournament {
             id: playerId,
             name: playerName,
             iconname: this.marioNames[playerId].replaceAll(' ', ''),
-            rounds: {},
-            previousOpponents: new Set()
+            rounds: {}
         }
 
         return player;
@@ -359,14 +394,6 @@ class MarioKartTournament {
         const roundSetup = this.getRoundSetup(roundNumber);
         const playerGroups = this.createPlayerGroups(players, roundSetup.groupSetup, roundNumber);
 
-        // Set which opponents encountered
-        playerGroups.forEach(playerGroup => {
-            const playerNames = playerGroup.map(p => p.name);
-            playerGroup.forEach(player => {
-                playerNames.forEach(name => player.previousOpponents.add(name));
-            });
-        });
-
         const round: Round = {
             roundNumber: roundNumber,
             groupSetup: roundSetup.groupSetup,
@@ -381,7 +408,7 @@ class MarioKartTournament {
         return round;
     }
 
-    createPlayerGroups(players: Player[], groupSetup: GroupSetup, roundNumber: number): Players[] {
+    createPlayerGroups(players: Player[], groupSetup: GroupSetup, roundNumber: number): Player[][] {
         let playerGroups = [];
         let idx = 0;
 
@@ -389,7 +416,7 @@ class MarioKartTournament {
 
         players.forEach(player => player.rounds[roundName] = {
             round: roundNumber,
-            points: Math.floor(Math.random() * 15) // 0
+            points: 0
         });
 
         for (let i = 0; i < groupSetup[4]; i++) {
@@ -401,6 +428,45 @@ class MarioKartTournament {
         }
 
         return playerGroups;
+    }
+
+    createLeaderboard(group: Group, roundName: string) {
+        const leaderboard = getElement('div');
+        leaderboard.classList.add('leaderboard');
+
+        const sortedPlayers = this.sortPlayersByScore(group.players, roundName);
+
+        sortedPlayers.forEach((player, rank) => {
+            const playerRow = getElement('div');
+            playerRow.classList.add('playerRow');
+
+            const rankDiv = getElement('div', (rank + 1).toString());
+            rankDiv.classList.add('rank');
+            playerRow.appendChild(rankDiv);
+
+            const iconDiv = getElement('div');
+            iconDiv.classList.add('icon');
+            const iconImg = <HTMLImageElement>getElement('img');
+            iconImg.src = `images/${player.iconname}.png`;
+            iconDiv.appendChild(iconImg);
+            playerRow.appendChild(iconDiv);
+
+            const nameDiv = getElement('div', player.name);
+            nameDiv.classList.add('name');
+            playerRow.appendChild(nameDiv);
+
+            const playerPoints = player.rounds[roundName].points.toString() || '0';
+            const pointsDiv = getElement('div', playerPoints);
+            pointsDiv.classList.add('points');
+            pointsDiv.contentEditable = 'true';
+            pointsDiv.setAttribute('data-player', player.id.toString());
+            pointsDiv.setAttribute('data-round', player.rounds[roundName].round.toString());
+            playerRow.appendChild(pointsDiv);
+
+            leaderboard.appendChild(playerRow);
+        });
+
+        return leaderboard;
     }
 }
 

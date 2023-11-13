@@ -5,11 +5,8 @@ type Player = {
     rounds: Record<string, {
         round: number,
         points: number
-    }>,
-    previousOpponents: Set<string>
+    }>
 }
-
-type Players = Player[]
 
 type GroupSetup = {
     3: number,
@@ -26,7 +23,7 @@ declare enum WinCondition {
 }
 
 type Group = {
-    players: Players,
+    players: Player[],
     condition: string,
 }
 

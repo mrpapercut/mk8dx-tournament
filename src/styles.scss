@@ -15,18 +15,18 @@ $red: rgb(181 0 0 / 100%);
 }
 
 body {
-    background: #333 url('../images/bg.png') repeat;
+    background: #333 url('../images/bg-color.png') repeat;
     font-family: 'New Rodin';
 }
 
 #debug {
-    position: absolute;
+    position: fixed;
     display: none;
     top: 30px;
     left: 10px;
-    background: #fff;
-    width: 400px;
-    z-index: 100;
+    background: #fff url('../images/bg-light.png');
+    width: 120px;
+    z-index: 110;
     padding: 0.25rem 1rem;
 
     &.show {
@@ -34,7 +34,11 @@ body {
     }
 
     h6 {
-        margin-top: 0;
+        margin: 0;
+    }
+
+    button {
+        width: 100%;
     }
 }
 
@@ -45,13 +49,13 @@ body {
 }
 
 #admin {
-    position: absolute;
+    position: fixed;
     display: none;
     top: 30px;
     left: 10px;
-    background: #fff;
-    width: 400px;
-    z-index: 100;
+    background: #fff url('../images/bg-light.png');
+    width: 220px;
+    z-index: 110;
     padding: 0.25rem 1rem;
 
     &.show {
@@ -61,8 +65,22 @@ body {
 
 #toggleadmin {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 5px;
+    right: 10px;
+    background: url('../images/BlueShell.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border: none;
+    filter: grayscale(60%);
+    transform: scaleX(-1);
+    transition: filter 0.25s;
+
+    &:hover {
+        filter: grayscale(0);
+    }
 }
 
 #wrapper {
