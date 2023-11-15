@@ -17,6 +17,16 @@ export function getMarioNames(): string[] {
     ];
 }
 
+export function getNames(): string[] {
+    const playerNames = `
+
+    `.split('\n').filter(n => n).map(n => n.trim());
+
+    if (playerNames.length === 0) return getMarioNames();
+
+    return playerNames;
+}
+
 export const localStorage = {
     get: (key: string): string => window.localStorage.getItem(key),
     set: (key: string, value: string): void => window.localStorage.setItem(key, value),

@@ -36,7 +36,8 @@ declare enum RoundType {
 type Round = {
     roundNumber: number,
     groupSetup: GroupSetup,
-    groups: Group[]
+    groups: Group[],
+    winners: Player[]
 }
 
 type Rounds = Round[];

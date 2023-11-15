@@ -15,26 +15,23 @@ $red: rgb(181 0 0 / 100%);
 }
 
 body {
-    background: #333 url('../images/bg-color.png') repeat;
+    background: #333 url('../images/bg-light.png') repeat;
     font-family: 'New Rodin';
 }
 
-#debug {
+#admin {
     position: fixed;
     display: none;
-    top: 30px;
+    top: 70px;
     left: 10px;
     background: #fff url('../images/bg-light.png');
     width: 120px;
     z-index: 110;
     padding: 0.25rem 1rem;
+    box-shadow: 1px 1px 2px 0px #000;
 
     &.show {
         display: block;
-    }
-
-    h6 {
-        margin: 0;
     }
 
     button {
@@ -42,31 +39,10 @@ body {
     }
 }
 
-#toggledebug {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-#admin {
-    position: fixed;
-    display: none;
-    top: 30px;
-    left: 10px;
-    background: #fff url('../images/bg-light.png');
-    width: 220px;
-    z-index: 110;
-    padding: 0.25rem 1rem;
-
-    &.show {
-        display: block;
-    }
-}
-
 #toggleadmin {
-    position: absolute;
+    position: fixed;
     top: 5px;
-    right: 10px;
+    left: 10px;
     background: url('../images/BlueShell.png');
     background-repeat: no-repeat;
     background-size: contain;
@@ -75,7 +51,6 @@ body {
     cursor: pointer;
     border: none;
     filter: grayscale(60%);
-    transform: scaleX(-1);
     transition: filter 0.25s;
 
     &:hover {
