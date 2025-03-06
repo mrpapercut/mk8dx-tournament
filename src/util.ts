@@ -20,7 +20,7 @@ export function getMarioNames(): string[] {
 export function getNames(): string[] {
     const playerNames = `
 
-    `.split('\n').filter(n => n).map(n => n.trim());
+    `.split('\n').map(n => n.trim()).filter(n => n);
 
     if (playerNames.length === 0) return getMarioNames();
 

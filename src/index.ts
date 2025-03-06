@@ -96,13 +96,15 @@ class MarioKartTournament {
     attachListeners() {
         const toggleAdminBtn = document.body.querySelector('#toggleadmin');
         const adminDiv = <HTMLDivElement>document.body.querySelector('#admin');
+        const playerlistDiv = <HTMLDivElement>document.body.querySelector('#playerswrapper');
+
         toggleAdminBtn.addEventListener('click', e => {
             e.preventDefault();
             adminDiv.classList.toggle('show');
         });
 
-        const [clearStorage, populatePlayersBtn, round1Btn, round2Btn, round3Btn, round4Btn] =
-            ['clearStorage', 'populatePlayers', 'round1', 'round2', 'round3', 'round4'].map(id => document.getElementById(id));
+        const [clearStorage, playersInput, populatePlayersBtn, round1Btn, round2Btn, round3Btn, round4Btn, setPlayersBtn] =
+            ['clearStorage', 'playersInput', 'populatePlayers', 'round1', 'round2', 'round3', 'round4', 'setPlayers'].map(id => document.getElementById(id));
 
         clearStorage.addEventListener('click', e => {
             e.preventDefault();
@@ -113,6 +115,16 @@ class MarioKartTournament {
             const players = this.customNames.slice(0, this.numberOfPlayers).map((playerName, playerIndex) => this.parsePlayer(playerName, playerIndex));
 
             this.initState(players);
+        });
+
+        playersInput.addEventListener('click', e => {
+            e.preventDefault();
+
+            playerlistDiv.classList.toggle('show');
+        });
+
+        setPlayersBtn.addEventListener('click', e => {
+            this.setPlayers();
         });
 
         populatePlayersBtn.addEventListener('click', e => {
@@ -155,6 +167,12 @@ class MarioKartTournament {
             players: players,
             playersPerRound: new Map()
         }
+    }
+
+    private setPlayers() {
+        const playerTA = <HTMLTextAreaElement>document.getElementById('players');
+
+        console.log(playerTA.value);
     }
 
     private initNewRound(round: number): void {

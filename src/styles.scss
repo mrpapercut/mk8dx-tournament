@@ -58,6 +58,32 @@ body {
     }
 }
 
+#playerswrapper {
+    display: none;
+    position: absolute;
+    width: 40vw;
+    height: 40vh;
+    left: calc(50% - 20vw);
+    top: calc(50% - 20vh);
+    border-radius: 5px;
+    border: 2px solid $orangered;
+    background: #fff;
+    z-index: 100;padding: 0.5rem 1rem;
+
+    &.show {
+        display: block;
+    }
+}
+
+#players {
+    height: 90%;
+    max-height: 90%;
+    width: 100%;
+    overflow-y: auto;
+    background: #efefef;
+    outline: none;
+}
+
 #wrapper {
     margin-top: 150px;
 }
