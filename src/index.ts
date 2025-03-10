@@ -370,6 +370,13 @@ class MarioKartTournament {
                 sortedPlayers.slice(0, 2).forEach(player => winners.push(player));
                 sortedPlayers.slice(2).forEach(player => losers.push(player));
             });
+        } else if (condition === '3/group') {
+            round.groups.forEach(group => {
+                const sortedPlayers = this.sortPlayersByScore(group.players, roundName);
+
+                sortedPlayers.slice(0, 3).forEach(player => winners.push(player));
+                sortedPlayers.slice(3).forEach(player => losers.push(player));
+            });
         } else if (condition === '2/round') {
             const allPlayers = [];
             round.groups.forEach(group => allPlayers.push(...group.players));
@@ -419,7 +426,7 @@ class MarioKartTournament {
     }
 
     getRoundSetup(roundNumber: number) {
-        const clampedNumPlayers = Math.max(Math.min(this.state.players.length, 32), 16);
+        const clampedNumPlayers = Math.max(Math.min(this.state.players.length, 32), 12);
 
         const roundsSetupForPlayers = roundSetups.find(setup => setup.players === clampedNumPlayers);
         const roundSetupName = this.roundNames.get(roundNumber).setupName;
