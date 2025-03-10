@@ -1,4 +1,160 @@
 export default [{
+    "players": 12,
+    "rounds": {
+        "r1": {
+            "groupSetup": {
+                "3": 0,
+                "4": 3
+            },
+            "condition": "3/group"
+        },
+        "r2a": {
+            "groupSetup": {
+                "3": 3,
+                "4": 0
+            },
+            "condition": "2/group"
+        },
+        "r2b": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
+        },
+        "r3": {
+            "groupSetup": {
+                "3": 1,
+                "4": 1
+            },
+            "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
+        }
+    }
+}, {
+    "players": 13,
+    "rounds": {
+        "r1": {
+            "groupSetup": {
+                "3": 3,
+                "4": 1
+            },
+            "condition": "2/group"
+        },
+        "r2a": {
+            "groupSetup": {
+                "3": 0,
+                "4": 2
+            },
+            "condition": "2/group"
+        },
+        "r2b": {
+            "groupSetup": {
+                "3": 2,
+                "4": 0
+            },
+            "condition": "1/group"
+        },
+        "r3": {
+            "groupSetup": {
+                "3": 2,
+                "4": 0
+            },
+            "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
+        }
+    }
+}, {
+    "players": 14,
+    "rounds": {
+        "r1": {
+            "groupSetup": {
+                "3": 2,
+                "4": 2
+            },
+            "condition": "2/group"
+        },
+        "r2a": {
+            "groupSetup": {
+                "3": 0,
+                "4": 2
+            },
+            "condition": "2/group"
+        },
+        "r2b": {
+            "groupSetup": {
+                "3": 2,
+                "4": 0
+            },
+            "condition": "1/group"
+        },
+        "r3": {
+            "groupSetup": {
+                "3": 2,
+                "4": 0
+            },
+            "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
+        }
+    }
+}, {
+    "players": 15,
+    "rounds": {
+        "r1": {
+            "groupSetup": {
+                "3": 1,
+                "4": 3
+            },
+            "condition": "2/group"
+        },
+        "r2a": {
+            "groupSetup": {
+                "3": 0,
+                "4": 2
+            },
+            "condition": "3/group"
+        },
+        "r2b": {
+            "groupSetup": {
+                "3": 1,
+                "4": 1
+            },
+            "condition": "1/group"
+        },
+        "r3": {
+            "groupSetup": {
+                "3": 0,
+                "4": 2
+            },
+            "condition": "2/group"
+        },
+        "r4": {
+            "groupSetup": {
+                "3": 0,
+                "4": 1
+            },
+            "condition": "1/group"
+        }
+    }
+}, {
     "players": 16,
     "rounds": {
         "r1": {
