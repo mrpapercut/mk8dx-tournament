@@ -3,24 +3,25 @@
 <head>
 <title>Mario Kart 8 Deluxe tournament</title>
 <link rel="stylesheet" href="public/styles.css">
-<link rel="icon" type="image/png" href="public/favicon.png">
+<link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
 <div id="admin">
     <button id="clearStorage">Clear storage</button>
-    <button id="playersInput">Players (0)</button>
+    <button id="playersDialog">Players (0)</button>
     <button id="populatePlayers">Populate players</button>
-    <button id="round1">Round 1</button>
-    <button id="round2">Round 2</button>
-    <button id="round3">Semi Finale</button>
-    <button id="round4">Finale</button>
+    <button id="round1">Start round 1</button>
+    <button id="round2">Start round 2</button>
+    <button id="round3">Start semi finals</button>
+    <button id="round4">Start finals</button>
 </div>
 <button id="toggleadmin" title="Admin"></button>
 
-<div id="playerswrapper">
+<dialog id="playerswrapper">
     <textarea id="players"></textarea>
     <button id="setPlayers">Save</button>
-</div>
+    <button id="cancelPlayers">Cancel</button>
+</dialog>
 
 <div id="wrapper">
     <div id="headerlogo"><img src="images/MK8DX-logo.png"></div>

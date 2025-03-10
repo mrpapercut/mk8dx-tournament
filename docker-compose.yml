@@ -1,10 +1,11 @@
 services:
-  frontend:
+  tournament:
     build:
       context: .
     container_name: ${COMPOSE_PROJECT_NAME}_mk8dxtournament
     restart: unless-stopped
-    volumes:
-      - ./public:/app/public
+    # volumes:
+    #   - ./public:/app/public
+    #   - ./htmltemplate.html:/app/htmltemplate.html
     ports:
       - "3000:3000"

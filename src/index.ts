@@ -9,7 +9,6 @@ class MarioKartTournament {
 
     private state: GameState;
 
-    private playerNames: string[] = [];
     private numberOfPlayers: number = 16;
 
     private marioNames: string[] = randomizeArray(getMarioNames());
@@ -38,6 +37,24 @@ class MarioKartTournament {
         }]
     ]);
 
+
+    private adminDiv = <HTMLDivElement>document.body.querySelector('#admin');
+    private playerlistDialog = <HTMLDialogElement>document.body.querySelector('#playerswrapper');
+    private playerlistTA = <HTMLTextAreaElement>document.body.querySelector('#players');
+
+    private buttons: Record<string, HTMLButtonElement> = {
+        toggleAdmin: <HTMLButtonElement>document.getElementById('toggleadmin'),
+        clearStorage: <HTMLButtonElement>document.getElementById('clearStorage'),
+        playersDialog: <HTMLButtonElement>document.getElementById('playersDialog'),
+        populatePlayers: <HTMLButtonElement>document.getElementById('populatePlayers'),
+        round1: <HTMLButtonElement>document.getElementById('round1'),
+        round2: <HTMLButtonElement>document.getElementById('round2'),
+        round3: <HTMLButtonElement>document.getElementById('round3'),
+        round4: <HTMLButtonElement>document.getElementById('round4'),
+        setPlayers: <HTMLButtonElement>document.getElementById('setPlayers'),
+        cancelPlayers: <HTMLButtonElement>document.getElementById('cancelPlayers')
+    };
+
     constructor() {
         this.wrapper = <HTMLDivElement>document.getElementById('wrapper');
 
@@ -48,12 +65,23 @@ class MarioKartTournament {
 
     initFromLocalStorage() {
         const storedState: string = localStorage.get('mk8dx');
+        const storedPlayers: string = localStorage.get('mk8dxplayers');
         const storedRounds: string = localStorage.get('mk8dxrounds');
         const storedPlayersPerRound: string = localStorage.get('mk8dxppr');
 
         if (storedState) {
             const storedGame: GameState = JSON.parse(storedState);
             this.state = storedGame;
+
+            if (storedPlayers) {
+                this.state.players = JSON.parse(storedPlayers);
+                this.customNames = this.state.players.map(p => p.name);
+                this.numberOfPlayers = this.customNames.length;
+                this.playerlistTA.value = this.customNames.join('\n');
+                this.buttons.playersDialog.innerText = `Players (${this.numberOfPlayers})`;
+            } else {
+                this.state.players = [];
+            }
 
             if (storedRounds) {
                 this.state.rounds = new Map(JSON.parse(storedRounds));
@@ -70,93 +98,106 @@ class MarioKartTournament {
             for (const roundNumber of this.state.rounds.keys()) {
                 this.renderRound(roundNumber);
                 this.highlightWinners(this.state.rounds.get(roundNumber).winners, roundNumber);
+
+                if (roundNumber === 1) {
+                    this.disableButton('populatePlayers');
+                } else if (roundNumber === 2) {
+                    this.disableButton('round1');
+                } else if (roundNumber === 4) {
+                    this.disableButton('round2');
+                } else if (roundNumber === 5) {
+                    this.disableButton('round3');
+                }
             }
         }
     }
 
     updateStateInLocalstorage() {
         localStorage.set('mk8dx', JSON.stringify(this.state));
+        localStorage.set('mk8dxplayers', JSON.stringify(this.state.players));
         localStorage.set('mk8dxrounds', JSON.stringify(Array.from(this.state.rounds.entries())));
         localStorage.set('mk8dxppr', JSON.stringify(Array.from(this.state.playersPerRound.entries())));
     }
 
-    updatePlayerlist() {
-        const playerList = <HTMLDivElement>document.body.querySelector('#playerlist');
-        playerList.innerHTML = '';
-
-        this.playerNames.forEach(name => {
-            const playerName = document.createElement('div');
-            playerName.classList.add('playername');
-            playerName.innerHTML = name;
-
-            playerList.appendChild(playerName);
-        })
-    }
-
     attachListeners() {
-        const toggleAdminBtn = document.body.querySelector('#toggleadmin');
-        const adminDiv = <HTMLDivElement>document.body.querySelector('#admin');
-        const playerlistDiv = <HTMLDivElement>document.body.querySelector('#playerswrapper');
-
-        toggleAdminBtn.addEventListener('click', e => {
+        this.buttons.toggleAdmin.addEventListener('click', e => {
             e.preventDefault();
-            adminDiv.classList.toggle('show');
+            this.adminDiv.classList.toggle('show');
         });
 
-        const [clearStorage, playersInput, populatePlayersBtn, round1Btn, round2Btn, round3Btn, round4Btn, setPlayersBtn] =
-            ['clearStorage', 'playersInput', 'populatePlayers', 'round1', 'round2', 'round3', 'round4', 'setPlayers'].map(id => document.getElementById(id));
-
-        clearStorage.addEventListener('click', e => {
+        this.buttons.clearStorage.addEventListener('click', e => {
             e.preventDefault();
 
-            localStorage.remove('mk8dx');
-            localStorage.remove('mk8dxrounds');
+            if (window.confirm('Are you sure you want to clear storage, resetting all progress?')) {
+                localStorage.remove('mk8dx');
+                localStorage.remove('mk8dxrounds');
+            }
 
-            const players = this.customNames.slice(0, this.numberOfPlayers).map((playerName, playerIndex) => this.parsePlayer(playerName, playerIndex));
+            const players = this.customNames.map((playerName, playerIndex) => this.parsePlayer(playerName, playerIndex));
 
             this.initState(players);
+
+            this.enableButtons();
         });
 
-        playersInput.addEventListener('click', e => {
+        this.buttons.playersDialog.addEventListener('click', e => {
             e.preventDefault();
 
-            playerlistDiv.classList.toggle('show');
+            this.playerlistDialog.showModal();
         });
 
-        setPlayersBtn.addEventListener('click', e => {
+        this.buttons.setPlayers.addEventListener('click', e => {
+            e.preventDefault();
+
             this.setPlayers();
+
+            this.playerlistDialog.close();
         });
 
-        populatePlayersBtn.addEventListener('click', e => {
+        this.buttons.cancelPlayers.addEventListener('click', e => {
             e.preventDefault();
-            const players = this.customNames.slice(0, this.numberOfPlayers).map((playerName, playerIndex) => this.parsePlayer(playerName, playerIndex));
+
+            this.playerlistDialog.close();
+        })
+
+        this.buttons.populatePlayers.addEventListener('click', e => {
+            e.preventDefault();
+            const players = randomizeArray(this.customNames).map((playerName, playerIndex) => this.parsePlayer(playerName, playerIndex));
 
             this.initState(players);
         });
 
-        round1Btn.addEventListener('click', e => {
+        this.buttons.round1.addEventListener('click', e => {
             e.preventDefault();
             this.updateStateInLocalstorage();
             this.initNewRound(1);
+
+            this.disableButton('populatePlayers');
         });
 
-        round2Btn.addEventListener('click', e => {
+        this.buttons.round2.addEventListener('click', e => {
             e.preventDefault();
             this.updateStateInLocalstorage();
             this.initNewRound(2);
             this.initNewRound(3);
+
+            this.disableButton('round1');
         });
 
-        round3Btn.addEventListener('click', e => {
+        this.buttons.round3.addEventListener('click', e => {
             e.preventDefault();
             this.updateStateInLocalstorage();
             this.initNewRound(4);
+
+            this.disableButton('round2');
         });
 
-        round4Btn.addEventListener('click', e => {
+        this.buttons.round4.addEventListener('click', e => {
             e.preventDefault();
             this.updateStateInLocalstorage();
             this.initNewRound(5);
+
+            this.disableButton('round3');
         });
     }
 
@@ -172,7 +213,24 @@ class MarioKartTournament {
     private setPlayers() {
         const playerTA = <HTMLTextAreaElement>document.getElementById('players');
 
-        console.log(playerTA.value);
+        this.customNames = randomizeArray(playerTA.value.split('\n').filter(p => p));
+        this.numberOfPlayers = this.customNames.length;
+        this.buttons.playersDialog.innerText = `Players (${this.numberOfPlayers})`;
+
+        const players = this.customNames.map((playerName, playerIndex) => this.parsePlayer(playerName, playerIndex));
+        this.initState(players);
+    }
+
+    private enableButtons() {
+        for (let btn in this.buttons) {
+            this.buttons[btn].removeAttribute('disabled');
+        }
+    }
+
+    private disableButton(btn: string) {
+        if (this.buttons.hasOwnProperty(btn)) {
+            this.buttons[btn].setAttribute('disabled', 'disabled');
+        }
     }
 
     private initNewRound(round: number): void {
@@ -429,6 +487,7 @@ class MarioKartTournament {
             iconDiv.classList.add('icon');
             const iconImg = <HTMLImageElement>getElement('img');
             iconImg.src = `images/${player.iconname}.png`;
+            iconImg.title = player.iconname;
             iconDiv.appendChild(iconImg);
             playerRow.appendChild(iconDiv);
 

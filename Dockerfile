@@ -11,9 +11,6 @@ COPY ./src ./src
 COPY ./fonts ./fonts
 COPY ./images ./images
 
-RUN mkdir /app/public
-COPY ./images/favicon.png /app/public/favicon.png
-
 RUN chown -R node:node /app
 
 USER node
